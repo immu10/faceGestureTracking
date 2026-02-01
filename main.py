@@ -31,6 +31,9 @@ frame_idx = 0
 cv2.namedWindow("name", cv2.WINDOW_NORMAL)
 cv2.namedWindow("input", cv2.WINDOW_NORMAL)
 
+def math_func(x1,y1,x2,y2):
+    return math.dist((x1,y1),(x2,y2))
+ 
 
 while True:
     
@@ -49,8 +52,9 @@ while True:
             for detection in detection_result.face_landmarks:
                 # print(detection,"2\n")
                 global start_point,end_point
-                # print(detection,"detection\n")              
-                head_size = math.dist((detection[10].x,detection[10].y),(detection[152].x,detection[152].y))
+                # print(detection,"detection\n")    
+                          
+                head_size = math_func(detection[10].x,detection[10].y,detection[152].x,detection[152].y)
                 if head_size <0.3:
                     print("too far away, please come closer")
                     continue
@@ -59,13 +63,13 @@ while True:
                     continue
                 print(head_size,"head_size\n")
                 
-                raised_eyebrow_distance = math.dist((detection[107].x,detection[107].y),(detection[109].x,detection[109].y))
+                raised_eyebrow_distance = math_func(detection[107].x,detection[107].y,detection[109].x,detection[109].y)
                 # print(raised_eyebrow_distance,"raised_eyebrow_distance\n")
                 if raised_eyebrow_distance < 0.05:
                     frame = raisedEyebrowsFrame.copy()
                     continue
 
-                mouth_width = math.dist((detection[13].x,detection[13].y),(detection[14].x,detection[14].y))
+                mouth_width = math_func(detection[13].x,detection[13].y,detection[14].x,detection[14].y)
                 if mouth_width > 0.03:
                     frame = catMouthOpenFrame.copy()
                     continue
